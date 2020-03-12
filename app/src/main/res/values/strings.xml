@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Search Urban Dictionary</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="description">Description</string>
+    <string name="restaurant">Restaurant Name</string>
+    <string name="rating">Rating</string>
+    <string name="search">Search Dictionary ... </string>
+
+    <string name="phone">Phone</string>
+    <string name="restaurant_details">Restaurant Details</string>
+    <string name="loading_restaurants">Loading Dictionary Results ...</string>
+    <string name="loading_restaurants_details">Loading Restaurant Details ...</string>
+    <string name="search_dictionary">Search Dictionary</string>
+    <string name="sort_by_thumbs_up">Sort By Thumbs Up</string>
+
+</resources>

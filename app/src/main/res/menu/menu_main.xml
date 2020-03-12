@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.google.places.ui.PlacesActivity">
+
+    <item
+        android:id="@+id/mi_search"
+        android:title="Search Dictionary"
+        app:showAsAction="always"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        />
+    <item
+        android:id="@+id/ten_miles"
+        android:title="Places in 10 miles"
+        android:checked="true"
+        android:icon="@color/blue"
+        android:checkable="true"
+        app:showAsAction="never"/>
+
+    <item
+        android:id="@+id/twenty_miles"
+        android:title="Places in 20 miles"
+        android:checkable="true"
+        android:icon="@color/red"
+        app:showAsAction="never"/>
+</menu>
