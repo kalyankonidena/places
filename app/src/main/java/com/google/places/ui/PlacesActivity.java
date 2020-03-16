@@ -3,7 +3,9 @@ package com.google.places.ui;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -21,18 +23,33 @@ public class PlacesActivity extends AppCompatActivity {
     private static final String BACK_STACK_ROOT_TAG = "PlacesActivity";
     ActionBar ab;
     PlacesListFragment placesListFragment;
-    private Long search_limit;
+    private String TEN_MILE_RADIUS = "16093.9";
+    private String TWENTY_MILE_RADIUS = "32186.9";
+
+    private String search_limit = TEN_MILE_RADIUS;
     private String searchTerm;
+    public SearchView searchView;
+    private SharedPreferences prefs = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_urban_dictionary_list);
+        setContentView(R.layout.activity_google_places_list);
         ab = getSupportActionBar();
         ab.setDisplayShowTitleEnabled(true);
+        prefs = PreferenceManager.getDefaultSharedPreferences(this);
         ButterKnife.bind(this);
+    }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        showPlacesFragmentWithNoSearch();
+    }
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
     }
 
     @Override
@@ -41,12 +58,12 @@ public class PlacesActivity extends AppCompatActivity {
     }
 
 
-    public void showDictionaryFragment(String term, Long radius) {
+    public void showPlacesFragment(String term, String radius) {
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
         Bundle termBundle = new Bundle();
         termBundle.putString("term",term);
-        termBundle.putLong("radius",radius);
+        termBundle.putString("radius",radius);
 
         placesListFragment = PlacesListFragment.newInstance();
         placesListFragment.setArguments(termBundle);
@@ -54,8 +71,13 @@ public class PlacesActivity extends AppCompatActivity {
         ft.commit();
     }
 
-
-
+    public void showPlacesFragmentWithNoSearch(){
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        placesListFragment = PlacesListFragment.newInstance();
+        ft.replace(R.id.listcontainer, placesListFragment);
+        ft.commit();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -66,43 +88,47 @@ public class PlacesActivity extends AppCompatActivity {
         ten_mile_radius.setCheckable(true);
         MenuItem twentymile_radius = menu.findItem(R.id.twenty_miles);
         twentymile_radius.setCheckable(true);
-        ten_mile_radius.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                ten_mile_radius.setChecked(true);
-                twentymile_radius.setChecked(false);
-                search_limit = Long.valueOf(10 * 1609);
-                if(searchTerm != null)
-                    showDictionaryFragment(searchTerm, search_limit);
-                return false;
-            }
+
+        ten_mile_radius.setOnMenuItemClickListener(item -> {
+            ten_mile_radius.setChecked(true);
+            twentymile_radius.setChecked(false);
+            prefs.edit().putInt("radius",10);
+
+            if(searchTerm != null)
+                showPlacesFragment(searchTerm, TEN_MILE_RADIUS);
+            return false;
         });
 
-        twentymile_radius.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                ten_mile_radius.setChecked(false);
-                twentymile_radius.setChecked(true);
-                search_limit = Long.valueOf(20* 1609);
-                if(searchTerm!=null)
-                showDictionaryFragment(searchTerm, search_limit);
-                return false;
-            }
+        twentymile_radius.setOnMenuItemClickListener(item -> {
+            ten_mile_radius.setChecked(false);
+            twentymile_radius.setChecked(true);
+            if(searchTerm!=null)
+                prefs.edit().putInt("radius",20);
+
+            showPlacesFragment(searchTerm, TWENTY_MILE_RADIUS);
+            return false;
         });
 
-        SearchView searchView = (SearchView) search_item.getActionView();
+        prefs.edit().commit();
+         searchView = (SearchView) search_item.getActionView();
         if (searchView != null) {
             searchView.setFocusable(false);
-            searchView.setQueryHint("Search Places");
-
+            searchView.setQueryHint(prefs.getString("searchTerm",null));
             searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-
                 @Override
                 public boolean onQueryTextSubmit(String term) {
-
                     searchTerm = term;
                     ab.setDisplayShowTitleEnabled(false);
-                    showDictionaryFragment(term, Long.valueOf(10 * 1609));  
+                    boolean checkValue = ten_mile_radius.isChecked();
+                    boolean checkValue_20 = twentymile_radius.isChecked();
+                    if(checkValue){
+                        search_limit = TEN_MILE_RADIUS;
+                    }
+                    else if(checkValue_20) {
+                        search_limit = TWENTY_MILE_RADIUS;
+                    }
+
+                    showPlacesFragment(term, search_limit);
                     return false;
                 }
 

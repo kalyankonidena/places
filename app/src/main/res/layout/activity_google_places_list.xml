@@ -4,7 +4,7 @@
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.google.places.com.urban.restaurants.ui.UrbanDictionaryActivity">
+    tools:context="com.google.places.ui.PlacesActivity">
 
     <FrameLayout
         android:id="@+id/listcontainer"

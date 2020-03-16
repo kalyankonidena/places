@@ -7,80 +7,87 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.places.R;
 import com.google.places.model.Results;
 
+import java.util.ArrayList;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 public class PlacesDataAdapter extends RecyclerView.Adapter<PlacesDataAdapter.ViewHolder> {
 
-    private Results[] placesResults;
+    private ArrayList<Results> placesResults;
 
+    private static Integer RECYCLER_ROW_LIMIT = 10;
 
-    public PlacesDataAdapter(Results[] placesItemsModels) {
+    public PlacesDataAdapter(ArrayList<Results> placesItemsModels) {
         placesResults = placesItemsModels;
-
     }
 
-    public PlacesDataAdapter() {
-
-    }
-
+    public PlacesDataAdapter() { }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.urban_dictionary_recycler_row, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.places_recycler_row, parent, false);
         return new ViewHolder(view);
     }
 
-
-    public void setPlacesResults(Results[] placesItemsModels){
+    public void setPlacesResults(ArrayList<Results> placesItemsModels){
         placesResults = placesItemsModels;
     }
 
+    public ArrayList<Results> getPlacesResults(){
+        return placesResults;
+    }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Results gitRepositoryItemsModel = placesResults[position];
+        Results placesModel = placesResults.get(position);
 
+        holder.placename.setText(placesModel.getName());
 
-        holder.defnition.setText(gitRepositoryItemsModel.getName());
+        Glide.with(holder.icon)
+                .load(placesModel.getIcon())
+                .centerCrop()
+                .placeholder(R.drawable.thumbsdown)
+                .into(holder.icon);
 
-        Glide.with(holder.thumbsUp)  //2
-                .load(gitRepositoryItemsModel.getIcon()) //3
-                .centerCrop() //4
-                .placeholder(R.drawable.thumbsdown) //5
-                .into(holder.thumbsUp);
-
-        holder.rating.setText(String.valueOf(gitRepositoryItemsModel.getRating()));
+        holder.rating.setText(String.valueOf("Rating "+placesModel.getRating()));
 
     }
 
     @Override
     public int getItemCount() {
-        if(placesResults.length>10)
-       return 10;
-       else
-        return placesResults.length;
+        if (placesResults != null) {
+            if (placesResults.size() > RECYCLER_ROW_LIMIT)
+                return RECYCLER_ROW_LIMIT;
+            else
+                return placesResults.size();
+        }
+        return 0;
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView defnition;
-        private ImageView thumbsUp;
-        private TextView rating;
+        @BindView(R.id.placename)
+        TextView placename;
 
-        public ViewHolder(View view) {
-            super(view);
+        @BindView(R.id.icon)
+        ImageView icon;
 
-            defnition = (TextView) view.findViewById(R.id.defnition);
-            thumbsUp = (ImageView) view.findViewById(R.id.icon);
-            rating = (TextView) view.findViewById(R.id.rating);
+        @BindView(R.id.rating)
+        TextView rating;
 
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+            ButterKnife.bind(this,itemView);
         }
-
     }
 
 }

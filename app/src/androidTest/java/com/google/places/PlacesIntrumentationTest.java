@@ -1,10 +1,5 @@
 package com.google.places;
-
-import android.support.test.espresso.UiController;
-import android.support.test.espresso.ViewAction;
-import android.support.test.espresso.matcher.ViewMatchers;
 import android.support.test.filters.LargeTest;
-import android.support.test.rule.ActivityTestRule;
 import android.support.test.runner.AndroidJUnit4;
 
 import com.google.places.R;
@@ -20,19 +15,22 @@ import android.view.inputmethod.BaseInputConnection;
 import android.widget.EditText;
 
 
-import static android.support.test.espresso.Espresso.onView;
-import static android.support.test.espresso.action.ViewActions.typeText;
-import static android.support.test.espresso.matcher.ViewMatchers.withId;
+import androidx.test.internal.runner.junit4.AndroidJUnit4ClassRunner;
+import androidx.test.rule.ActivityTestRule;
 
-import static android.support.test.espresso.action.ViewActions.click;
+import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.matcher.ViewMatchers.withId;
+
+import static androidx.test.espresso.action.ViewActions.click;
 /**
  * Instrumentation test, which will execute on an Android device.
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-@RunWith(AndroidJUnit4.class)
+@RunWith(AndroidJUnit4ClassRunner.class)
 @LargeTest
-public class UrbanDictionaryIntrumentationTest {
+public class PlacesIntrumentationTest {
 
     @Rule
     public ActivityTestRule<PlacesActivity> mActivityRule = new ActivityTestRule<>(
@@ -40,7 +38,6 @@ public class UrbanDictionaryIntrumentationTest {
 
 
     @Test
-    @SuppressWarnings("unchecked")
     public void testAppCompatSearchViewFromActionBar() throws InterruptedException {
 
         EditText editText = (EditText) mActivityRule.getActivity().findViewById(R.id.search_src_text) ;
@@ -48,7 +45,7 @@ public class UrbanDictionaryIntrumentationTest {
                 .perform(click());
 
         onView(withId(R.id.search_src_text))
-                .perform(typeText("Hello World"));
+                .perform(typeText("Restaurants"));
 
         onView(withId(R.id.search_src_text))
                 .perform(click());

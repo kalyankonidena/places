@@ -3,14 +3,16 @@ package com.google.places.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 public class PlacesResults implements Parcelable {
 
      private String[] html_attributions;
      private String next_page_token;
-     private Results[] results;
+     private ArrayList<Results> results;
 
 
-    public Results[] getResults() {
+    public ArrayList<Results> getResults() {
         return results;
     }
 
@@ -23,12 +25,10 @@ public class PlacesResults implements Parcelable {
 
     }
 
-
-
     protected PlacesResults(Parcel in) {
         html_attributions = (String[])in.readArray(PlacesResults.class.getClassLoader());
         next_page_token = in.readString();
-        results = (Results[])in.readArray(PlacesResults.class.getClassLoader());
+        results = (ArrayList<Results>)in.readArrayList(PlacesResults.class.getClassLoader());
 
     }
 
@@ -53,6 +53,6 @@ public class PlacesResults implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeStringArray(html_attributions);
         parcel.writeString(next_page_token);
-        parcel.writeArray(results);
+        parcel.writeList(results);
     }
 }
