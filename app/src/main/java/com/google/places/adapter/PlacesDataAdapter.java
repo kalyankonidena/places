@@ -54,6 +54,8 @@ public class PlacesDataAdapter extends RecyclerView.Adapter<PlacesDataAdapter.Vi
 
     @Override
     public int getItemCount() {
+        if(placesResults==null || placesResults.size()==0)
+            return 0;
        return Math.min(placesResults.size(), 10);
     }
 
