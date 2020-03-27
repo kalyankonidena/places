@@ -14,6 +14,8 @@ import com.bumptech.glide.Glide;
 import com.google.places.R;
 import com.google.places.model.Results;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -25,20 +27,17 @@ public class PlacesDataAdapter extends RecyclerView.Adapter<PlacesDataAdapter.Vi
 
     private static Integer RECYCLER_ROW_LIMIT = 10;
 
+    private static final String RATING = "Rating ";
+
     public PlacesDataAdapter(ArrayList<Results> placesItemsModels) {
         placesResults = placesItemsModels;
     }
 
-    public PlacesDataAdapter() { }
-
+    @NotNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.places_recycler_row, parent, false);
         return new ViewHolder(view);
-    }
-
-    public void setPlacesResults(ArrayList<Results> placesItemsModels){
-        placesResults = placesItemsModels;
     }
 
     public ArrayList<Results> getPlacesResults(){
@@ -57,7 +56,7 @@ public class PlacesDataAdapter extends RecyclerView.Adapter<PlacesDataAdapter.Vi
                 .placeholder(R.drawable.thumbsdown)
                 .into(holder.icon);
 
-        holder.rating.setText(String.valueOf("Rating "+placesModel.getRating()));
+        holder.rating.setText(RATING + placesModel.getRating());
 
     }
 
@@ -72,7 +71,7 @@ public class PlacesDataAdapter extends RecyclerView.Adapter<PlacesDataAdapter.Vi
         return 0;
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    static class ViewHolder extends RecyclerView.ViewHolder {
 
         @BindView(R.id.placename)
         TextView placename;
@@ -84,7 +83,7 @@ public class PlacesDataAdapter extends RecyclerView.Adapter<PlacesDataAdapter.Vi
         TextView rating;
 
 
-        public ViewHolder(@NonNull View itemView) {
+        ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);
         }
