@@ -10,5 +10,6 @@
     <string name="restaurant_details">Restaurant Details</string>
     <string name="loading_restaurants">Loading Places Results ...</string>
     <string name="search_dictionary">Search Places</string>
+    <string name="rating_label">Rating :</string>
 
 </resources>

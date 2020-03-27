@@ -7,7 +7,7 @@ public class PlacesUIProgressDialog {
 
     private static ProgressDialog pd;
 
-    public static void showProgressDialog(Context context, String message){
+    public static void showProgressDialog(Context context, String message) {
         pd = new ProgressDialog(context);
         pd.setCancelable(false);
         pd.setMessage(message);
@@ -15,8 +15,8 @@ public class PlacesUIProgressDialog {
         pd.show();
     }
 
-    public static void dismissDialog(){
-        if(pd != null && pd.isShowing()){
+    public static void dismissDialog() {
+        if (pd != null && pd.isShowing()) {
             pd.dismiss();
         }
     }

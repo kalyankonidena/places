@@ -2,6 +2,12 @@ package com.google.places.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.ImageView;
+
+import androidx.databinding.BindingAdapter;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 public class Results implements Parcelable {
 
@@ -14,7 +20,7 @@ public class Results implements Parcelable {
         icon = in.readString();
         name = in.readString();
         rating = in.readString();
-        geometry = (Geometry)in.readValue(Results.class.getClassLoader());
+        geometry = (Geometry) in.readValue(Results.class.getClassLoader());
     }
 
     public static final Creator<Results> CREATOR = new Creator<Results>() {
@@ -58,4 +64,12 @@ public class Results implements Parcelable {
         parcel.writeString(name);
         parcel.writeString(rating);
     }
+
+    @BindingAdapter({"icon"})
+    public static void loadImage(ImageView view, String icon) {
+        Glide.with(view.getContext())
+                .load(icon).apply(new RequestOptions().circleCrop())
+                .into(view);
+    }
+
 }

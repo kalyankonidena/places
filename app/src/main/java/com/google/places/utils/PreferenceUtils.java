@@ -7,7 +7,8 @@ import android.text.TextUtils;
 
 public class PreferenceUtils {
 
-    private PreferenceUtils() {}
+    private PreferenceUtils() {
+    }
 
     /**
      * Helper method to retrieve a String value from {@link android.content.SharedPreferences}.
@@ -46,7 +47,7 @@ public class PreferenceUtils {
     /**
      * Helper method to retrieve a float value from {@link SharedPreferences}.
      *
-     * @param context a {@link Context} object.
+     * @param context      a {@link Context} object.
      * @param key
      * @param defaultValue A default to return if the value could not be read.
      * @return The value from shared preferences, or the provided default.
@@ -81,7 +82,7 @@ public class PreferenceUtils {
     /**
      * Helper method to retrieve a long value from {@link SharedPreferences}.
      *
-     * @param context a {@link Context} object.
+     * @param context      a {@link Context} object.
      * @param key
      * @param defaultValue A default to return if the value could not be read.
      * @return The value from shared preferences, or the provided default.
@@ -116,7 +117,7 @@ public class PreferenceUtils {
     /**
      * Helper method to retrieve an integer value from {@link SharedPreferences}.
      *
-     * @param context a {@link Context} object.
+     * @param context      a {@link Context} object.
      * @param key
      * @param defaultValue A default to return if the value could not be read.
      * @return The value from shared preferences, or the provided default.
@@ -151,7 +152,7 @@ public class PreferenceUtils {
     /**
      * Helper method to retrieve a boolean value from {@link SharedPreferences}.
      *
-     * @param context a {@link Context} object.
+     * @param context      a {@link Context} object.
      * @param key
      * @param defaultValue A default to return if the value could not be read.
      * @return The value from shared preferences, or the provided default.

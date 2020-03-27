@@ -18,6 +18,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.places.R;
 import com.google.places.adapter.PlacesDataAdapter;
 import com.google.places.model.Results;
+import com.google.places.ui.PlacesActivity;
 import com.google.places.utils.PlacesUIProgressDialog;
 import com.google.places.utils.PreferenceUtils;
 import com.google.places.viewmodel.PlacesViewModel;
@@ -153,8 +154,9 @@ public class PlacesListFragment extends Fragment {
      */
     private void saveSearchResults() {
         String json = gson.toJson(mAdapter.getPlacesResults());
-        PreferenceUtils.setStringPreference(getActivity(), "searchResults", json);
-        PreferenceUtils.setStringPreference(getActivity(), "searchTerm", searchTerm);
+        PlacesActivity placesActivity = (PlacesActivity) getActivity();
+        PreferenceUtils.setStringPreference(placesActivity, "searchResults", json);
+        PreferenceUtils.setStringPreference(placesActivity, "searchTerm", searchTerm);
     }
 
     @Override

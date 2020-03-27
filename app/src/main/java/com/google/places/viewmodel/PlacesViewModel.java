@@ -10,14 +10,13 @@ public class PlacesViewModel extends ViewModel {
 
     private PlacesRepository placesRepository;
 
-    public void init(){
-
+    public void init() {
         placesRepository = PlacesRepository.getRepositoryInstance();
         placesRepository.init();
     }
 
-    public LiveData<PlacesResults> getPlacesResults(String searchTerm, String radius){
-        return placesRepository.getPlacesList(searchTerm,radius);
+    public LiveData<PlacesResults> getPlacesResults(String searchTerm, String radius) {
+        return placesRepository.getPlacesList(searchTerm, radius);
     }
 
 

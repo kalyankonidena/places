@@ -6,6 +6,4 @@ public class PlacesUtils {
 
     public static final String GOOGLE_MAPS_API_KEY = "AIzaSyALdH8F6Cg6g-4zAEDYcEOj7rxAL9yt1ec";
 
-
-
 }

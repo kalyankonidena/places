@@ -8,10 +8,13 @@ import android.widget.TextView;
 
 
 import androidx.annotation.NonNull;
+import androidx.databinding.DataBindingUtil;
+import androidx.databinding.library.baseAdapters.BR;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.google.places.R;
+import com.google.places.databinding.PlacesRecyclerRowBinding;
 import com.google.places.model.Results;
 
 import org.jetbrains.annotations.NotNull;
@@ -24,11 +27,7 @@ import butterknife.ButterKnife;
 public class PlacesDataAdapter extends RecyclerView.Adapter<PlacesDataAdapter.ViewHolder> {
 
     private ArrayList<Results> placesResults;
-
-    private static Integer RECYCLER_ROW_LIMIT = 10;
-
-    private static final String RATING = "Rating ";
-
+    
     public PlacesDataAdapter(ArrayList<Results> placesItemsModels) {
         placesResults = placesItemsModels;
     }
@@ -36,8 +35,11 @@ public class PlacesDataAdapter extends RecyclerView.Adapter<PlacesDataAdapter.Vi
     @NotNull
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.places_recycler_row, parent, false);
-        return new ViewHolder(view);
+
+       PlacesRecyclerRowBinding placesRecyclerRowBinding = DataBindingUtil.inflate(
+                LayoutInflater.from(parent.getContext()),
+                R.layout.places_recycler_row, parent, false);
+        return new ViewHolder(placesRecyclerRowBinding);
     }
 
     public ArrayList<Results> getPlacesResults(){
@@ -47,42 +49,28 @@ public class PlacesDataAdapter extends RecyclerView.Adapter<PlacesDataAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Results placesModel = placesResults.get(position);
-
-        holder.placename.setText(placesModel.getName());
-
-        Glide.with(holder.icon)
-                .load(placesModel.getIcon())
-                .centerCrop()
-                .placeholder(R.drawable.thumbsdown)
-                .into(holder.icon);
-
-        holder.rating.setText(RATING + placesModel.getRating());
-
+        holder.bind(placesModel);
     }
 
     @Override
     public int getItemCount() {
-        if (placesResults != null) {
-            if (placesResults.size() > RECYCLER_ROW_LIMIT)
-                return RECYCLER_ROW_LIMIT;
-            else
-                return placesResults.size();
-        }
-        return 0;
+       return Math.min(placesResults.size(), 10);
     }
 
     static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.placename)
-        TextView placename;
-
+        PlacesRecyclerRowBinding placesRecyclerRowBinding;
         @BindView(R.id.icon)
         ImageView icon;
 
-        @BindView(R.id.rating)
-        TextView rating;
-
-
+        public ViewHolder(PlacesRecyclerRowBinding itemRowBinding) {
+            super(itemRowBinding.getRoot());
+            this.placesRecyclerRowBinding = itemRowBinding;
+        }
+        public void bind(Results results) {
+            placesRecyclerRowBinding.setVariable(BR.placeResults, results);
+            placesRecyclerRowBinding.executePendingBindings();
+        }
         ViewHolder(@NonNull View itemView) {
             super(itemView);
             ButterKnife.bind(this,itemView);

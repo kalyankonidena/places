@@ -49,7 +49,7 @@ public class PlacesRepository {
     public LiveData<PlacesResults> getPlacesList(String searchTerm, String radius) {
         final MutableLiveData<PlacesResults> data = new MutableLiveData<>();
 
-        placesListService.getPlacesResults(searchTerm, radius,PlacesUtils.GOOGLE_MAPS_API_KEY).enqueue(new Callback<PlacesResults>() {
+        placesListService.getPlacesResults(searchTerm, radius, PlacesUtils.GOOGLE_MAPS_API_KEY).enqueue(new Callback<PlacesResults>() {
             @Override
             public void onResponse(Call call, Response response) {
                 data.setValue((PlacesResults) response.body());
